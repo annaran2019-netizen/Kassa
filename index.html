@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Кайфл — tuz_regina</title>
+<title>Расчёт закупки, себестоимости и прибыли</title>
 <style>
 :root{
-  --bg:#f7eff1; --card:#ffffff; --ink:#2b1812; --muted:#8b7068;
-  --berry:#c8264f; --berry-soft:#fbe3ea; --blue:#34406b; --kraft:#b88a5a; --kraft-soft:#f3e6d3;
-  --ok:#2f7d4f; --line:#ead9dd;
+  --bg:#f1f5f2; --card:#ffffff; --ink:#1f2d28; --muted:#6f8279;
+  --berry:#1f8a70; --berry-soft:#dcefe7; --blue:#34406b; --kraft:#c9a45c; --kraft-soft:#f6edd8;
+  --ok:#2f7d4f; --line:#dbe6e0; --red:#c8443a;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.4}
 .wrap{max-width:560px;margin:0 auto;padding:0 14px 96px}
-.hero{margin:0 -14px 14px;background:#f9dbe4;border-radius:0 0 22px 22px;overflow:hidden}
+.hero{margin:0 -14px 14px;background:#dcefe7;border-radius:0 0 22px 22px;overflow:hidden}
 .hero svg{display:block;width:100%;height:auto}
 .ht{padding:2px 18px 16px;background:var(--ink);color:#fff;margin-top:-1px}
-h1{font-family:Georgia,"Times New Roman",serif;font-size:34px;margin:0;letter-spacing:-.5px;line-height:1.15}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:26px;margin:0;letter-spacing:-.5px;line-height:1.15}
 .ht p{margin:2px 0 0;color:#e6cfc6;font-size:14.5px}
 nav{position:fixed;left:0;right:0;bottom:0;background:var(--ink);display:flex;z-index:5;padding-bottom:env(safe-area-inset-bottom)}
 nav button{flex:1;background:none;border:0;color:#cdb9b1;padding:14px 4px 13px;font-size:15px;font-weight:600;border-top:3px solid transparent}
@@ -27,7 +27,7 @@ nav button.on{color:#fff;border-top-color:var(--berry)}
   background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);
   background-size:44px 44px;background-position:-1px -1px}
 .bar .lab{font-size:14px;color:#e6cfc6}
-.bar .big{font-family:Georgia,serif;font-size:42px;font-weight:700;color:#ffb3c6;line-height:1.1;margin:2px 0 12px}
+.bar .big{font-family:Georgia,serif;font-size:42px;font-weight:700;color:#a8ecd2;line-height:1.1;margin:2px 0 12px}
 .bar .big.neg{color:#ff8d8d}
 .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .row3 div{background:rgba(255,255,255,.1);border-radius:9px;padding:8px 9px}
@@ -53,7 +53,7 @@ input.bigin{font-size:26px;font-weight:700;font-family:Georgia,serif;padding:8px
 .name{font-weight:700;font-size:17px}
 .muted{color:var(--muted);font-size:13.5px}
 .pos{color:var(--ok);font-weight:700}
-.neg{color:var(--berry);font-weight:700}
+.neg{color:var(--red);font-weight:700}
 .acts{display:flex;gap:8px;margin-top:10px}
 .empty{text-align:center;color:var(--muted);padding:22px 10px;border:1.5px dashed var(--kraft);border-radius:12px;margin-bottom:10px}
 .line-item{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
@@ -71,44 +71,28 @@ footer{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap}
 <body>
 <div class="wrap">
   <header class="hero">
-    <svg viewBox="0 0 360 200" role="img" aria-label="Шоколадный трайфл с клубникой и черникой в крафтовой коробочке">
+    <svg viewBox="0 0 360 150" role="img" aria-label="Абстрактный рисунок из круглых и листовых форм">
       <defs>
-        <linearGradient id="bgp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe6ec"/><stop offset="1" stop-color="#f6c9d7"/></linearGradient>
-        <linearGradient id="gloss" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-        <g id="sb">
-          <path d="M0,-20 C17,-22 27,-5 18,13 C12,24 4,30 0,32 C-4,30 -12,24 -18,13 C-27,-5 -17,-22 0,-20Z" fill="#d92b3b"/>
-          <path d="M0,-13 C11,-14 17,-3 11,9 C8,16 3,20 0,22 C-3,20 -8,16 -11,9 C-17,-3 -11,-14 0,-13Z" fill="#f2646f" opacity=".8"/>
-          <path d="M0,-8 C-3,0 -2,10 0,18" stroke="#ffe3e3" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".8"/>
-          <g fill="#ffe2b4"><ellipse cx="-13" cy="-3" rx="1.3" ry="2"/><ellipse cx="13" cy="-3" rx="1.3" ry="2"/><ellipse cx="-14" cy="6" rx="1.3" ry="2"/><ellipse cx="14" cy="6" rx="1.3" ry="2"/><ellipse cx="-9" cy="15" rx="1.3" ry="2"/><ellipse cx="9" cy="15" rx="1.3" ry="2"/><ellipse cx="0" cy="25" rx="1.3" ry="2"/><ellipse cx="-6" cy="-14" rx="1.3" ry="2"/><ellipse cx="6" cy="-14" rx="1.3" ry="2"/></g>
-        </g>
-        <g id="bb"><circle r="10" fill="#2c3766"/><circle cx="-3.5" cy="-3.5" r="3.2" fill="#7482c4" opacity=".55"/><circle cy="-3" r="2.8" fill="#161b38"/></g>
+        <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9f6f0"/><stop offset="1" stop-color="#cfe9de"/></linearGradient>
+        <g id="leaf"><path d="M0,0 C26,-34 74,-30 84,12 C44,32 8,22 0,0Z" fill="#2f9e7a"/><path d="M4,2 C30,0 56,2 80,12" stroke="#d6f2e7" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/></g>
       </defs>
-      <rect width="360" height="200" fill="url(#bgp)"/>
-      <rect y="150" width="360" height="50" fill="#d4ae7c"/>
-      <g stroke="#bf9763" stroke-width="1.2" opacity=".7"><path d="M0 162H360M0 176H360M0 190H360"/><path d="M70 150V162M250 162V176M140 176V190M300 150V162"/></g>
-      <ellipse cx="180" cy="176" rx="165" ry="9" fill="#2b1812" opacity=".22"/>
-      <!-- box -->
-      <polygon points="70,58 290,58 337,125 23,125" fill="#cda673"/>
-      <polygon points="82,67 278,67 320,119 40,119" fill="#3a2118"/>
-      <polygon points="82,67 278,67 320,119 40,119" fill="url(#gloss)"/>
-      <polygon points="23,125 337,125 323,174 37,174" fill="#b88a5a"/>
-      <polygon points="23,125 337,125 335,131 25,131" fill="#a47a4d"/>
-      <path d="M62 150H298" stroke="#a47a4d" stroke-width="1.4" opacity=".5"/>
-      <!-- berries -->
-      <use href="#sb" transform="translate(116 97) rotate(-24) scale(.82)"/>
-      <use href="#sb" transform="translate(184 86) rotate(14) scale(.86)"/>
-      <use href="#sb" transform="translate(250 100) rotate(32) scale(.82)"/>
-      <use href="#sb" transform="translate(208 108) rotate(-10) scale(.7)"/>
-      <use href="#bb" transform="translate(150 108) scale(.82)"/>
-      <use href="#bb" transform="translate(148 82) scale(.72)"/>
-      <use href="#bb" transform="translate(226 80) scale(.8)"/>
-      <use href="#bb" transform="translate(284 108) scale(.76)"/>
-      <use href="#bb" transform="translate(88 106) scale(.7)"/>
-      <!-- freeze-dried crumbs -->
-      <g fill="#f5a9bf"><polygon points="132,76 140,74 142,81 134,83"/><polygon points="206,92 213,91 214,98 207,99"/><polygon points="168,104 175,102 177,109 169,110"/><polygon points="262,84 269,86 266,92 260,90"/><polygon points="108,113 115,112 116,118 109,118"/><polygon points="236,112 243,111 244,117 237,118"/></g>
-      <g fill="#ffd3df"><polygon points="170,76 176,76 176,82 170,82"/><polygon points="196,70 202,72 200,77 194,76"/><polygon points="246,74 252,74 252,80 246,80"/><polygon points="126,106 132,106 132,112 126,112"/><polygon points="188,112 194,113 192,118 187,117"/><polygon points="272,96 278,97 276,102 271,101"/><polygon points="226,98 231,98 231,103 226,103"/></g>
+      <rect width="360" height="150" fill="url(#sg)"/>
+      <circle cx="46" cy="86" r="58" fill="#9fd8c2" opacity=".65"/>
+      <circle cx="122" cy="58" r="40" fill="#f2c879" opacity=".85"/>
+      <circle cx="205" cy="98" r="56" fill="#7cc4a8" opacity=".55"/>
+      <circle cx="262" cy="40" r="26" fill="#f0a98a" opacity=".8"/>
+      <circle cx="326" cy="104" r="40" fill="#bfe3d3" opacity=".9"/>
+      <use href="#leaf" transform="translate(240 92) rotate(-18)"/>
+      <use href="#leaf" transform="translate(40 40) rotate(28) scale(.7)"/>
+      <path d="M296 14 C306 30 306 44 296 52 C286 44 286 30 296 14Z" fill="#e58f6b"/>
+      <g fill="#1f2d28" opacity=".12">
+        <circle cx="20" cy="18" r="2.4"/><circle cx="36" cy="18" r="2.4"/><circle cx="52" cy="18" r="2.4"/><circle cx="68" cy="18" r="2.4"/>
+        <circle cx="20" cy="34" r="2.4"/><circle cx="36" cy="34" r="2.4"/><circle cx="52" cy="34" r="2.4"/><circle cx="68" cy="34" r="2.4"/>
+      </g>
+      <g fill="#c9a45c" opacity=".9"><ellipse cx="170" cy="30" rx="7" ry="3.5" transform="rotate(30 170 30)"/><ellipse cx="186" cy="20" rx="7" ry="3.5" transform="rotate(-20 186 20)"/><ellipse cx="180" cy="40" rx="7" ry="3.5" transform="rotate(70 180 40)"/><ellipse cx="108" cy="122" rx="7" ry="3.5" transform="rotate(-35 108 122)"/><ellipse cx="124" cy="132" rx="7" ry="3.5" transform="rotate(15 124 132)"/></g>
+      <path d="M0 132 C60 114 120 142 190 128 C250 116 300 136 360 122 V150 H0Z" fill="#1f8a70" opacity=".25"/>
     </svg>
-    <div class="ht"><h1>Кайфл 🍓</h1><p>tuz_regina · считаем закупку, себестоимость и прибыль</p></div>
+    <div class="ht"><h1>Расчёт закупки, себестоимости и прибыли</h1><p>Впишите состав на 1 штуку и сколько нужно сделать, остальное посчитается само</p></div>
   </header>
   <div id="view"></div>
 </div>
@@ -118,33 +102,19 @@ footer{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap}
 </nav>
 
 <script>
-const KEY='trifle-kaifl-v1';
+const KEY='trifle-kaifl-v2';
 const uid=()=>Math.random().toString(36).slice(2,9);
 const todayISO=()=>new Date().toISOString().slice(0,10);
 
 function defaults(){
-  return {
-    batch:10, price:450, margin:50,
-    ingredients:[
-      {id:uid(),name:'Сливки 33%',unit:'мл',packSize:1000,packPrice:520,per:80},
-      {id:uid(),name:'Шоколад',unit:'г',packSize:500,packPrice:650,per:60},
-      {id:uid(),name:'Клубника',unit:'г',packSize:250,packPrice:300,per:40},
-      {id:uid(),name:'Черника',unit:'г',packSize:125,packPrice:250,per:15},
-      {id:uid(),name:'Сублимированная клубника',unit:'г',packSize:20,packPrice:180,per:3}
-    ],
-    extras:[
-      {id:uid(),name:'Коробка',cost:35},
-      {id:uid(),name:'Газ, свет, доставка',cost:10}
-    ],
-    orders:[]
-  };
+  return {batch:0, price:0, margin:0, ingredients:[], extras:[], orders:[]};
 }
 function load(){try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):null}catch(e){return null}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 
 let S=load()||defaults();
-if(typeof S.batch!=='number')S.batch=10;
-if(typeof S.margin!=='number')S.margin=50;
+if(typeof S.batch!=='number')S.batch=0;
+if(typeof S.margin!=='number')S.margin=0;
 let tab='calc';
 let showDone=false;
 
@@ -232,7 +202,7 @@ function viewCalc(){
   let h=`
   <div class="card">
     <div class="g2">
-      <div><label>Сколько штук готовим</label><input class="bigin" type="number" inputmode="numeric" min="0" value="${S.batch}" data-ch="set" data-f="batch"></div>
+      <div><label>Сколько штук делаем</label><input class="bigin" type="number" inputmode="numeric" min="0" value="${S.batch}" data-ch="set" data-f="batch"></div>
       <div><label>Цена продажи 1 шт, ₽</label><input class="bigin" type="number" inputmode="decimal" min="0" value="${S.price}" data-ch="set" data-f="price"></div>
     </div>
     ${oq>0?`<div class="gap"><button class="btn ghost small" data-act="fromOrders">Взять из заказов: ${oq} шт</button></div>`:''}
@@ -243,8 +213,8 @@ function viewCalc(){
   <h2>Что купить</h2>
   <div class="card" id="shop">${shopHTML(c)}</div>
 
-  <h2>Рецепт на 1 штуку</h2>
-  <div class="note">Цены и граммовки ниже — примеры. Впишите свои: сколько продукта в упаковке, сколько она стоит и сколько уходит на одну порцию. Всё пересчитается сразу.</div>`;
+  <h2>Состав на 1 штуку</h2>
+  <div class="note">Добавьте продукты и впишите: сколько уходит на одну штуку, сколько продукта в упаковке и сколько стоит упаковка. Всё пересчитается сразу.</div>`;
   c.rows.forEach(r=>{
     const i=r.i;
     h+=`<div class="card">
@@ -261,6 +231,7 @@ function viewCalc(){
       <div class="buy" id="r-${i.id}">${resHTML(r)}</div>
     </div>`;
   });
+  if(!c.rows.length) h+=`<div class="empty">Продуктов пока нет. Нажмите «Добавить продукт» и впишите, что входит в изделие.</div>`;
   h+=`<button class="btn ghost" data-act="addIng">Добавить продукт</button>
 
   <h2>Прочие расходы на 1 шт</h2>`;
@@ -293,7 +264,7 @@ function viewOrders(){
     <div class="lab">Ожидаемая прибыль по заказам в работе</div>
     <div class="big ${t.profit<0?'neg':''}">${rub(t.profit)}</div>
     <div class="row3">
-      <div><b>${t.q}</b><span>порций</span></div>
+      <div><b>${t.q}</b><span>штук</span></div>
       <div><b>${rub(t.rev)}</b><span>выручка</span></div>
       <div><b>${rub(t.cost)}</b><span>себестоимость</span></div>
     </div>
@@ -304,8 +275,8 @@ function viewOrders(){
       <div><label>Дата</label><input id="o-date" type="date" value="${todayISO()}"></div>
     </div>
     <div class="g2 gap">
-      <div><label>Порций, шт</label><input id="o-qty" type="number" inputmode="numeric" min="1" value="1"></div>
-      <div><label>Цена за порцию, ₽</label><input id="o-price" type="number" inputmode="decimal" min="0" value="${S.price}"></div>
+      <div><label>Штук</label><input id="o-qty" type="number" inputmode="numeric" min="1" value="1"></div>
+      <div><label>Цена за штуку, ₽</label><input id="o-price" type="number" inputmode="decimal" min="0" value="${S.price}"></div>
     </div>
     <div class="gap"><button class="btn" data-act="addOrder">Добавить заказ</button></div>
   </div>
@@ -318,7 +289,7 @@ function viewOrders(){
   h+=`<h2>Выполнено</h2>`;
   if(!d.length) h+=`<div class="empty">Здесь появятся выполненные заказы и реальная прибыль.</div>`;
   else{
-    h+=`<div class="card"><div class="top"><span class="muted">Заказов: ${d.length}, порций: ${td.q}</span><span class="pos">Прибыль ${rub(td.profit)}</span></div>
+    h+=`<div class="card"><div class="top"><span class="muted">Заказов: ${d.length}, штук: ${td.q}</span><span class="pos">Прибыль ${rub(td.profit)}</span></div>
     <div class="muted">Выручка ${rub(td.rev)}, себестоимость ${rub(td.cost)}</div>
     <div class="acts"><button class="btn line small" data-act="toggleDone">${showDone?'Скрыть список':'Показать список'}</button></div></div>`;
     if(showDone) d.slice().reverse().forEach(o=>h+=orderCard(o));
@@ -330,12 +301,12 @@ function orderCard(o){
   return `<div class="card ${o.done?'done':''}">
     <div class="top"><span class="name">${esc(o.name||'Без имени')}</span><span class="muted">${dm(o.date)}</span></div>
     <div class="g2 gap">
-      <div><label>Порций</label><input type="number" inputmode="numeric" min="1" value="${o.qty}" data-ch="order" data-id="${o.id}" data-f="qty"></div>
-      <div><label>Цена за порцию, ₽</label><input type="number" inputmode="decimal" min="0" value="${o.price}" data-ch="order" data-id="${o.id}" data-f="price"></div>
+      <div><label>Штук</label><input type="number" inputmode="numeric" min="1" value="${o.qty}" data-ch="order" data-id="${o.id}" data-f="qty"></div>
+      <div><label>Цена за штуку, ₽</label><input type="number" inputmode="decimal" min="0" value="${o.price}" data-ch="order" data-id="${o.id}" data-f="price"></div>
     </div>
     <div class="top gap"><span>Сумма <b>${rub(o.qty*o.price)}</b></span><span class="${profit>=0?'pos':'neg'}">прибыль ${rub(profit)}</span></div>
     <div class="acts">
-      <button class="btn ${o.done?'line':''} small" data-act="toggleOrder" data-id="${o.id}">${o.done?'Вернуть в работу':'Готово, отдала'}</button>
+      <button class="btn ${o.done?'line':''} small" data-act="toggleOrder" data-id="${o.id}">${o.done?'Вернуть в работу':'Готово, выдано'}</button>
       <button class="btn line small" data-act="delOrder" data-id="${o.id}">Удалить</button>
     </div>
   </div>`;
@@ -384,8 +355,8 @@ view.addEventListener('click',e=>{
   else if(a==='toggleOrder'){const o=S.orders.find(x=>x.id===id);if(o)o.done=!o.done}
   else if(a==='delOrder'){if(confirm('Удалить заказ?'))S.orders=S.orders.filter(x=>x.id!==id);else return}
   else if(a==='toggleDone'){showDone=!showDone}
-  else if(a==='addIng'){S.ingredients.push({id:uid(),name:'Новый продукт',unit:'г',packSize:100,packPrice:0,per:0})}
-  else if(a==='delIng'){if(confirm('Удалить продукт из рецепта?'))S.ingredients=S.ingredients.filter(x=>x.id!==id);else return}
+  else if(a==='addIng'){S.ingredients.push({id:uid(),name:'Продукт',unit:'г',packSize:0,packPrice:0,per:0})}
+  else if(a==='delIng'){if(confirm('Удалить продукт из состава?'))S.ingredients=S.ingredients.filter(x=>x.id!==id);else return}
   else if(a==='addExt'){S.extras.push({id:uid(),name:'Расход',cost:0})}
   else if(a==='delExt'){S.extras=S.extras.filter(x=>x.id!==id)}
   else if(a==='backup'){
@@ -397,11 +368,12 @@ view.addEventListener('click',e=>{
   else if(a==='restore'){
     const t=prompt('Вставьте копию данных:');
     if(!t)return;
-    try{const d=JSON.parse(t);if(d&&d.ingredients&&d.orders){S=d;if(typeof S.batch!=='number')S.batch=10;if(typeof S.margin!=='number')S.margin=50}else throw 0}catch(_){alert('Не получилось прочитать копию. Проверьте, что вставили весь текст.');return}
+    try{const d=JSON.parse(t);if(d&&d.ingredients&&d.orders){S=d;if(typeof S.batch!=='number')S.batch=0;if(typeof S.margin!=='number')S.margin=0}else throw 0}catch(_){alert('Не получилось прочитать копию. Проверьте, что вставили весь текст.');return}
   }
   render();
 });
 
+document.addEventListener('focusin',e=>{const t=e.target;if(t.tagName==='INPUT'&&t.type==='number'){setTimeout(()=>{try{t.select()}catch(_){}},0)}});
 render();
 </script>
 </body>
